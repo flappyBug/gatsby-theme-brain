@@ -17,7 +17,6 @@ const textNoEscaping = require("./text-no-escaping");
 
 const chokidar = require("chokidar");
 
-const http = require("http");
 const url = require("url");
 const externalMapFetcher = require("./external-map-fetcher");
 const generateBrainMap = require("./generate-brain-map");
@@ -520,7 +519,7 @@ function processMarkdownNotes(
 
   const additionalNoteTypes = pluginOptions.additionalNoteTypes || {};
 
-  markdownNotes.forEach(({ slug, fullPath, rawFile }) => {
+  markdownNotes.forEach(({ slug, fullPath, rawFile, filename }) => {
     let fileContents = matter(rawFile);
     let content = fileContents.content;
     let frontmatter = fileContents.data;
@@ -585,7 +584,7 @@ function processMarkdownNotes(
 
       let processor = unified()
         .use(stringifyMd, { commonmark: true })
-        .use(textNoEscaping)
+        // .use(textNoEscaping)
         .freeze();
       let previewMarkdown = processor.stringify(parent.node);
 
@@ -615,8 +614,8 @@ function processMarkdownNotes(
       externalReferences: externalReferences,
     });
 
-    if (frontmatter.title == null) {
-      frontmatter.title = slug;
+    if (frontmatter.title === null) {
+      frontmatter.title = path.basename(filename, path.extname(filename));
     }
 
     slugToNoteMap[slug] = {

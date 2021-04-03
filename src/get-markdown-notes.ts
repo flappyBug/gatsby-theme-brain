@@ -1,19 +1,20 @@
-const fs = require("fs");
-const path = require("path");
-const generateSlug = require("./generate-slug");
+import fs from "fs";
+import path from "path";
+import { PluginOptions } from "..";
+import generateSlug from "./generate-slug";
 
-function toRegExp(value) {
+function toRegExp(value: string | RegExp) {
   if (typeof value === "string") {
     return new RegExp(`^${value}$`);
   }
   return value;
 }
 
-const matches = (filename) => (regExp) => regExp.test(filename);
-const doesNotMatchAny = (regExps) => (filename) =>
+const matches = (filename: string) => (regExp: RegExp) => regExp.test(filename);
+const doesNotMatchAny = (regExps: RegExp[]) => (filename: string) =>
   !regExps.some(matches(filename));
 
-module.exports = (pluginOptions) => {
+export = (pluginOptions: PluginOptions) => {
   let notesDirectory = pluginOptions.notesDirectory || "content/brain/";
   let notesFileExtensions = pluginOptions.notesFileExtensions || [
     ".md",
@@ -30,10 +31,9 @@ module.exports = (pluginOptions) => {
     })
     .filter(doesNotMatchAny(exclusions))
     .map((filename) => {
-      let slug = pluginOptions.generateSlug
+      let slug: string = pluginOptions.generateSlug
         ? pluginOptions.generateSlug(filename)
         : generateSlug(path.parse(filename).name);
-
       let fullPath = notesDirectory + filename;
 
       let rawFile = fs.readFileSync(fullPath, "utf-8");
