@@ -1,6 +1,6 @@
-import slug from "limax";
+const slug = require("limax");
 
-export = (str: string) =>
+export default (str: string) =>
   slug(str, {
     tone: false,
   });

@@ -16,6 +16,7 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "@types/node": "^14.14.37",
     "babel-jest": "^26.0.1",
     "babel-preset-gatsby": "^1.0.0",
     "eslint": "^7.0.0",
