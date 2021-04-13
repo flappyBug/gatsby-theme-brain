@@ -1,5 +1,5 @@
-import * as url from "url";
-import * as path from "path";
+import { URL } from "url";
+import { join } from "path";
 import { PluginOptions } from ".";
 
 module.exports = ({
@@ -37,9 +37,9 @@ module.exports = ({
           {
             serialize: ({ query: { site, notes } }) => {
               return notes.nodes.map((note) => {
-                let notePath = url.resolve(
-                  site.siteMetadata.siteUrl,
-                  path.join(rootPath, note.slug)
+                let notePath = new URL(
+                  join(rootPath, note.slug),
+                  site.siteMetadata.siteUrl
                 );
                 return Object.assign({}, note.childMdx.frontmatter, {
                   description: note.childMdx.excerpt,

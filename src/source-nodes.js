@@ -1,7 +1,7 @@
 const matter = require("gray-matter");
 const getMarkdownNotes = require("./get-markdown-notes");
 const insertLinks = require("./insert-links");
-const generateSlug = require("./generate-slug");
+const generateSlug = require("./generate-slug").default;
 
 const unified = require("unified");
 const markdown = require("remark-parse");
