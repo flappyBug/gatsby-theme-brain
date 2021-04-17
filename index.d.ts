@@ -29,3 +29,43 @@ export type PluginOptions = Partial<{
   // Function that generate slug from filename, e.g.: "foo.md"
   generateSlug: (filename: string) => string;
 }>;
+
+export interface BrainNoteNode {
+  id: any;
+  title: any;
+  slug: string;
+  content: any;
+  rawContent: any;
+  absolutePath: any;
+  noteTemplate: any;
+  aliases: any;
+  children: any[];
+  parent: any;
+  internal: {
+    type: string;
+    mediaType: string;
+  };
+  outboundReferences: string[];
+}
+
+export interface NoteFile {
+  filename: string;
+  fullPath: string;
+  slug: string;
+  rawFile: string;
+}
+
+export interface MarkdownNoteFile {
+  title: string;
+  content: string;
+  rawContent: string;
+  fullPath: string;
+  frontmatter: {
+    [key: string]: any;
+  };
+  aliases: string[];
+  outboundReferences: any[];
+  externalOutboundReferences: any[];
+  noteTemplate: string;
+  inboundReferences: any[];
+}

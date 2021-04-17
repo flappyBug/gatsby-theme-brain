@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { PluginOptions } from "..";
+import { NoteFile, PluginOptions } from "..";
 import generateSlug from "./generate-slug";
 
 function toRegExp(value: string | RegExp) {
@@ -14,7 +14,7 @@ const matches = (filename: string) => (regExp: RegExp) => regExp.test(filename);
 const doesNotMatchAny = (regExps: RegExp[]) => (filename: string) =>
   !regExps.some(matches(filename));
 
-export = (pluginOptions: PluginOptions) => {
+export default (pluginOptions: PluginOptions): NoteFile[] => {
   let notesDirectory = pluginOptions.notesDirectory || "content/brain/";
   let notesFileExtensions = pluginOptions.notesFileExtensions || [
     ".md",

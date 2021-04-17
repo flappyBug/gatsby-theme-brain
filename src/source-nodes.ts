@@ -1,10 +1,11 @@
-const matter = require("gray-matter");
-const getMarkdownNotes = require("./get-markdown-notes");
+import * as matter from "gray-matter";
+import getMarkdownNotes from "./get-markdown-notes";
 const insertLinks = require("./insert-links");
-const generateSlug = require("./generate-slug").default;
+import { BrainNoteNode, MarkdownNoteFile, NoteFile, PluginOptions } from "..";
+import generateSlug from "./generate-slug";
 
-const unified = require("unified");
-const markdown = require("remark-parse");
+import * as unified from "unified";
+import * as markdown from "remark-parse";
 const stringifyMd = require("remark-stringify");
 const html = require("rehype-stringify");
 const remark2rehype = require("remark-rehype");
@@ -368,7 +369,7 @@ function generateNodes(
       pluginOptions
     );
 
-    const brainNoteNode = {
+    const brainNoteNode: any = {
       id: createNodeId(`${slug} >>> BrainNote`),
       title: note.title,
       slug: slug,
@@ -379,6 +380,7 @@ function generateNodes(
       aliases: note.aliases,
       children: [],
       parent: null,
+      outboundReferences: [],
       internal: {
         type: `BrainNote`,
         mediaType: `text/markdown`,
@@ -487,7 +489,7 @@ function findDeepestChildForPosition(parent, tree, position) {
     };
   }
 
-  for (child of tree.children) {
+  for (const child of tree.children) {
     if (
       child.position.start.offset <= position &&
       child.position.end.offset >= position
@@ -509,12 +511,12 @@ function findDeepestChildForPosition(parent, tree, position) {
 }
 
 function processMarkdownNotes(
-  markdownNotes,
-  pluginOptions,
+  markdownNotes: NoteFile[],
+  pluginOptions: PluginOptions,
   externalMapsParsed
 ) {
-  let slugToNoteMap = new Map();
-  let nameToSlugMap = new Map();
+  let slugToNoteMap = new Map<string, MarkdownNoteFile>();
+  let nameToSlugMap = new Map<string, string>();
   let allReferences = [];
 
   const additionalNoteTypes = pluginOptions.additionalNoteTypes || {};
