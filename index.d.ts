@@ -51,6 +51,7 @@ export interface BrainNoteNode {
 export interface NoteFile {
   filename: string;
   fullPath: string;
+  title: string;
   slug: string;
   rawFile: string;
 }

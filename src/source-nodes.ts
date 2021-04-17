@@ -1,11 +1,11 @@
-import * as matter from "gray-matter";
+import matter from "gray-matter";
 import getMarkdownNotes from "./get-markdown-notes";
 const insertLinks = require("./insert-links");
 import { BrainNoteNode, MarkdownNoteFile, NoteFile, PluginOptions } from "..";
 import generateSlug from "./generate-slug";
 
-import * as unified from "unified";
-import * as markdown from "remark-parse";
+import unified from "unified";
+import markdown from "remark-parse";
 const stringifyMd = require("remark-stringify");
 const html = require("rehype-stringify");
 const remark2rehype = require("remark-rehype");
@@ -521,13 +521,13 @@ function processMarkdownNotes(
 
   const additionalNoteTypes = pluginOptions.additionalNoteTypes || {};
 
-  markdownNotes.forEach(({ slug, fullPath, rawFile, filename }) => {
+  markdownNotes.forEach(({ slug, fullPath, rawFile, filename, title }) => {
     let fileContents = matter(rawFile);
     let content = fileContents.content;
     let frontmatter = fileContents.data;
     var tree = unified().use(markdown).parse(content);
 
-    let title = slug;
+    nameToSlugMap[title] = slug;
     nameToSlugMap[slug] = slug;
 
     if (frontmatter.title != null) {
@@ -635,8 +635,8 @@ function processMarkdownNotes(
   });
 
   return {
-    slugToNoteMap: slugToNoteMap,
-    nameToSlugMap: nameToSlugMap,
-    allReferences: allReferences,
+    slugToNoteMap,
+    nameToSlugMap,
+    allReferences,
   };
 }

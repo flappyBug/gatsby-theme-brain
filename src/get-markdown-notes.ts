@@ -31,18 +31,20 @@ export default (pluginOptions: PluginOptions): NoteFile[] => {
     })
     .filter(doesNotMatchAny(exclusions))
     .map((filename) => {
+      const title = path.parse(filename).name;
       let slug: string = pluginOptions.generateSlug
         ? pluginOptions.generateSlug(filename)
-        : generateSlug(path.parse(filename).name);
+        : generateSlug(title);
       let fullPath = notesDirectory + filename;
 
       let rawFile = fs.readFileSync(fullPath, "utf-8");
 
       return {
-        filename: filename,
-        fullPath: fullPath,
-        slug: slug,
-        rawFile: rawFile,
+        filename,
+        fullPath,
+        title,
+        slug,
+        rawFile,
       };
     });
 };

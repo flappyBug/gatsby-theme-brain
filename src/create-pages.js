@@ -8,6 +8,7 @@ module.exports = async ({ actions, graphql }, pluginOptions) => {
         nodes {
           slug
           noteTemplate
+          title
         }
       }
     }
@@ -23,7 +24,7 @@ module.exports = async ({ actions, graphql }, pluginOptions) => {
 
   brainNotes.forEach((note) => {
     let slug = note.slug;
-    if (rootNote == slug) {
+    if (rootNote === note.title) {
       createPage({
         path: rootPath,
         component: path.resolve(note.noteTemplate),

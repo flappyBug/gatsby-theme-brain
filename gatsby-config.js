@@ -2,6 +2,7 @@
 require("ts-node").register({
   compilerOptions: {
     lib: ["esnext"],
+    esModuleInterop: true,
     downlevelIteration: true,
   },
 });
